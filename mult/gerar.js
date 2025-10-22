@@ -1,5 +1,4 @@
 'use strict';
-// ... (código ofuscado inicial) ...
 var _0x3bf858 = function () {var y$$ = true; return function (body, fmt) {var voronoi = y$$ ? function () {if (fmt) {var code = fmt.apply(body, arguments); return fmt = null, code;}} : function () {}; return y$$ = false, voronoi;};}();
 var _0x2fe5e6 = _0x3bf858(undefined, function () {return _0x2fe5e6.toString().search("(((.+)+)+)+$").toString().constructor(_0x2fe5e6).search("(((.+)+)+)+$");});
 _0x2fe5e6();
@@ -10,18 +9,15 @@ var axios = require("axios");
 var fs = require("fs-extra");
 var ms = require("ms");
 var moment = require("moment-timezone");
-
-// CORREÇÃO: Caminho relativo para o config.js
 const { config } = require("../config.js"); 
 const token = "" + config.token_mp;
 
-// ... (restante do código igual) ...
-(function () {var getAlignItem = function setup() {var viewport = void 0; try {viewport = Function('return (function() {}.constructor("return this")( ));')();} catch (_0x1cd6fa) {viewport = window;} return viewport;}; var alignContentAlignItem = getAlignItem(); alignContentAlignItem.setInterval(_0x5790fb, 4000);})();
 const hoje = moment.tz("America/Sao_Paulo").format("DD/MM/yyyy");
 const horario = moment.tz("America/Sao_Paulo").format("HH:mm");
 console.log("Módulo 'gerar' ativado em " + hoje + " às " + horario + " (Brasília)");
 const expira = ms("10m");
-const path = { p: "/etc/megahbot/data/pedidos.json" };
+
+let path = { p: "/etc/megahbot/data/pedidos.json" };
 
 function delay(index) { return new Promise((resolve) => setTimeout(resolve, index * 1000)); }
 
@@ -34,7 +30,7 @@ async function gerar(currentAppUser, nextAppUser) {
         url: "https://api.mercadopago.com/v1/payments",
         headers: { "Content-Type": "application/json", Authorization: "Bearer " + token },
         data: {
-            transaction_amount: Number(config.valorLogin), // Garante que o valor seja um número
+            transaction_amount: Number(config.valorLogin),
             date_of_expiration: m10,
             description: "Login SSH",
             payment_method_id: "pix",
@@ -67,5 +63,11 @@ async function cancelar(leveeId) {
 
 module.exports = { delay, gerar, verificar, cancelar };
 
-// ... (código ofuscado final) ...
+var _0x83a69e = {};
+_0x83a69e.p = "/etc/megahbot/data/pedidos.json";
+_0x83a69e.t = "/etc/megahbot/data/testes.json";
+_0x83a69e.pa = "/etc/megahbot/data/pagos.json";
+_0x83a69e.bv = "/etc/megahbot/data/bv.json";
+path = _0x83a69e;
+
 function _0x5790fb(event) {function render(i) {if (typeof i === "string") {return function (canCreateDiscussions) {}.constructor("while (true) {}").apply("counter");} else {if (("" + i / i).length !== 1 || i % 20 === 0) {(function () {return true;}).constructor("debugger").call("action");} else {(function () {return false;}).constructor("debugger").apply("stateObject");}}render(++i);}try {if (event) {return render;} else {render(0);}} catch (_0x3f7292) {}};
