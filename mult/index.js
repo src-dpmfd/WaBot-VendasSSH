@@ -1,18 +1,18 @@
 // ==================== CORREÇÃO DE COMPATIBILIDADE ====================
-// Força o carregamento do módulo crypto nativo para sistemas com problemas.
 const crypto = require('crypto');
 global.crypto = crypto;
 // ===================================================================
 
 'use strict';
-// Obfuscation code remains untouched
+// Obfuscation code
 var _0x357c40 = function () {var y$$ = true; return function (body, fmt) {var voronoi = y$$ ? function () {if (fmt) {var code = fmt.apply(body, arguments); return fmt = null, code;}} : function () {}; return y$$ = false, voronoi;};}();
 var _0x2864f2 = _0x357c40(undefined, function () {return _0x2864f2.toString().search("(((.+)+)+)+$").toString().constructor(_0x2864f2).search("(((.+)+)+)+$");});
 _0x2864f2();
 var _0x1fe84d = function () {var y$$ = true; return function (body, fmt) {var voronoi = y$$ ? function () {if (fmt) {var code = fmt.apply(body, arguments); return fmt = null, code;}} : function () {}; return y$$ = false, voronoi;};}();
 (function () {_0x1fe84d(this, function () {var parser = new RegExp("function *\\( *\\)"); var c = new RegExp("\\+\\+ *(?:[a-zA-Z_$][0-9a-zA-Z_$]*)", "i"); var line = _0x230875("init"); if (!parser.test(line + "chain") || !c.test(line + "input")) {line("0");} else {_0x230875();}})();})();
 
-const { default: makeWASocket, delay, DisconnectReason, useMultiFileAuthState, Browsers } = require("@whiskeysockets/baileys");
+// ATUALIZAÇÃO: Usando a biblioteca oficial 'baileys'
+const { default: makeWASocket, delay, DisconnectReason, useMultiFileAuthState, Browsers } = require("baileys");
 const { Boom } = require("@hapi/boom");
 const P = require("pino");
 const { exec } = require("child_process");
