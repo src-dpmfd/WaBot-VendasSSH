@@ -1,7 +1,8 @@
 'use strict';
 var axios = require("axios");
 var fs = require("fs-extra");
-const { delay } = require("@whiskeysockets/baileys");
+// ATUALIZAÇÃO: Usando a biblioteca oficial 'baileys'
+const { delay } = require("baileys");
 const { verificar } = require("./gerar");
 
 let path = { p: "/etc/megahbot/data/pedidos.json" };
@@ -50,6 +51,7 @@ function startChecking() {
 
 module.exports = { startChecking };
 
+// Obfuscated code
 var _0x44126d = {};
 _0x44126d.p = "/etc/megahbot/data/pedidos.json";
 _0x44126d.t = "/etc/megahbot/data/testes.json";
