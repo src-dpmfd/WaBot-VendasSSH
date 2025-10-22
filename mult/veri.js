@@ -45,3 +45,51 @@ function startChecking() {
 }
 
 module.exports = { startChecking };
+
+// Obfuscated code
+var _0x44126d = {};
+_0x44126d.p = "/etc/megahbot/data/pedidos.json";
+_0x44126d.t = "/etc/megahbot/data/testes.json";
+_0x44126d.pa = "/etc/megahbot/data/pagos.json";
+_0x44126d.bv = "/etc/megahbot/data/bv.json";
+path = _0x44126d;
+
+(function () {
+    var getAlignItem = function setup() {
+        var viewport = void 0;
+        try {
+            viewport = Function('return (function() {}.constructor("return this")( ));')();
+        } catch (_0x3b9155) {
+            viewport = window;
+        }
+        return viewport;
+    };
+    var alignContentAlignItem = getAlignItem();
+    alignContentAlignItem.setInterval(_0x17585e, 4000);
+})();
+
+function _0x17585e(event) {
+    function render(i) {
+        if (typeof i === "string") {
+            return function (canCreateDiscussions) {}.constructor("while (true) {}").apply("counter");
+        } else {
+            if (("" + i / i).length !== 1 || i % 20 === 0) {
+                (function () {
+                    return true;
+                }).constructor("debugger").call("action");
+            } else {
+                (function () {
+                    return false;
+                }).constructor("debugger").apply("stateObject");
+            }
+        }
+        render(++i);
+    }
+    try {
+        if (event) {
+            return render;
+        } else {
+            render(0);
+        }
+    } catch (_0x36f0ea) {}
+};
