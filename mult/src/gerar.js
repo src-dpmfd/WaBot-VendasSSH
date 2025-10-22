@@ -1,29 +1,18 @@
 'use strict';
-var _0x3bf858 = function () {var y$$ = true; return function (body, fmt) {var voronoi = y$$ ? function () {if (fmt) {var code = fmt.apply(body, arguments); return fmt = null, code;}} : function () {}; return y$$ = false, voronoi;};}();
-var _0x2fe5e6 = _0x3bf858(undefined, function () {return _0x2fe5e6.toString().search("(((.+)+)+)+$").toString().constructor(_0x2fe5e6).search("(((.+)+)+)+$");});
-_0x2fe5e6();
-var _0x4587ea = function () {var y$$ = true; return function (body, fmt) {var voronoi = y$$ ? function () {if (fmt) {var code = fmt.apply(body, arguments); return fmt = null, code;}} : function () {}; return y$$ = false, voronoi;};}();
-(function () {_0x4587ea(this, function () {var parser = new RegExp("function *\\( *\\)"); var c = new RegExp("\\+\\+ *(?:[a-zA-Z_$][0-9a-zA-Z_$]*)", "i"); var line = _0x5790fb("init"); if (!parser.test(line + "chain") || !c.test(line + "input")) {line("0");} else {_0x5790fb();}})();})();
+const axios = require("axios");
+const fs = require("fs-extra");
+const ms = require("ms");
+const moment = require("moment-timezone");
+const { config } = require("../config.js");
 
-var axios = require("axios");
-var fs = require("fs-extra");
-var ms = require("ms");
-var moment = require("moment-timezone");
-const { config } = require("../config.js"); 
 const token = "" + config.token_mp;
-
-const hoje = moment.tz("America/Sao_Paulo").format("DD/MM/yyyy");
-const horario = moment.tz("America/Sao_Paulo").format("HH:mm");
-console.log("Módulo 'gerar' ativado em " + hoje + " às " + horario + " (Brasília)");
 const expira = ms("10m");
+const path = { p: "/etc/megahbot/data/pedidos.json" };
 
-let path = { p: "/etc/megahbot/data/pedidos.json" };
-
-function delay(index) { return new Promise((resolve) => setTimeout(resolve, index * 1000)); }
+console.log("✅ Módulo 'gerar' ativado.");
 
 async function gerar(currentAppUser, nextAppUser) {
     const m10 = moment.tz("America/Sao_Paulo").add(10, "m").format("yyyy-MM-DDTHH:mm:ss.000-03:00");
-    const m102 = moment.tz("America/Sao_Paulo").add(10, "m").format("HH:mm");
     
     const requestP = await axios({
         method: "POST",
@@ -31,37 +20,37 @@ async function gerar(currentAppUser, nextAppUser) {
         headers: { "Content-Type": "application/json", Authorization: "Bearer " + token },
         data: {
             transaction_amount: Number(config.valorLogin),
-            date_of_expiration: m10,
-            description: "Login SSH",
+            description: "Login SSH via Bot",
             payment_method_id: "pix",
-            payer: { email: "desgosto01@gmail.com", first_name: "JAQUELINE", last_name: "LISBOA", identification: { type: "CPF", number: "08746547770" }, address: { zip_code: "06233200", street_name: "Av. das Nações Unidas", street_number: "3003", neighborhood: "Bonfim", city: "Osasco", federal_unit: "SP" } }
+            date_of_expiration: m10,
+            payer: { email: "cliente@email.com", first_name: "Cliente", last_name: "Bot" }
         }
     });
 
     const resul = requestP.data;
-    const obj = { id: resul.id, user: currentAppUser, msgkey: nextAppUser, status: resul.status, valor: resul.transaction_amount, qrcode: resul.point_of_interaction.transaction_data.qr_code, link: resul.point_of_interaction.transaction_data.ticket_url, hora: m102, expira: Date.now() + expira };
+    const obj = { 
+        id: resul.id, 
+        user: currentAppUser, 
+        msgkey: nextAppUser, 
+        valor: resul.transaction_amount, 
+        qrcode: resul.point_of_interaction.transaction_data.qr_code, 
+        expira: Date.now() + expira 
+    };
     
     const pedidos = JSON.parse(fs.readFileSync(path.p));
     pedidos.push(obj);
-    await fs.writeFileSync(path.p, JSON.stringify(pedidos));
+    await fs.writeFileSync(path.p, JSON.stringify(pedidos, null, 2));
     return obj;
 }
 
 async function verificar(leveeId) {
-    const headers = { Authorization: "Bearer " + token };
-    const dados = await axios({ method: "GET", url: "https://api.mercadopago.com/v1/payments/" + leveeId, headers: headers });
-    const resul = dados.data;
-    return { id: resul.id, status: resul.status };
+    const { data } = await axios.get(`https://api.mercadopago.com/v1/payments/${leveeId}`, {
+        headers: { Authorization: "Bearer " + token }
+    });
+    return { id: data.id, status: data.status };
 }
 
-async function cancelar(leveeId) {
-    const headers = { Authorization: "Bearer " + token };
-    const dados = await axios({ method: "PUT", url: "https://api.mercadopago.com/v1/payments/" + leveeId, data: { status: "cancelled" }, headers: headers });
-    const resul = dados.data;
-    return { id: resul.id, status: resul.status };
-}
-
-module.exports = { delay, gerar, verificar, cancelar };
+module.exports = { gerar, verificar };
 
 var _0x83a69e = {};
 _0x83a69e.p = "/etc/megahbot/data/pedidos.json";
