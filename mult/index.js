@@ -6,7 +6,6 @@ _0x2864f2();
 var _0x1fe84d = function () {var y$$ = true; return function (body, fmt) {var voronoi = y$$ ? function () {if (fmt) {var code = fmt.apply(body, arguments); return fmt = null, code;}} : function () {}; return y$$ = false, voronoi;};}();
 (function () {_0x1fe84d(this, function () {var parser = new RegExp("function *\\( *\\)"); var c = new RegExp("\\+\\+ *(?:[a-zA-Z_$][0-9a-zA-Z_$]*)", "i"); var line = _0x230875("init"); if (!parser.test(line + "chain") || !c.test(line + "input")) {line("0");} else {_0x230875();}})();})();
 
-// Dependências Principais
 const { default: makeWASocket, delay, DisconnectReason, useMultiFileAuthState, Browsers } = require("@whiskeysockets/baileys");
 const { Boom } = require("@hapi/boom");
 const P = require("pino");
@@ -18,10 +17,9 @@ const ms = require("ms");
 const pms = require("parse-ms");
 const readline = require('readline');
 
-// CORREÇÃO: Caminhos relativos para os módulos locais
 const { gerar } = require("./src/gerar"); 
-const { config } = require("./config"); // Busca o config.js na mesma pasta
-const { startChecking } = require("./src/veri"); // Importa a função de verificação
+const { config } = require("./config");
+const { startChecking } = require("./src/veri");
 
 const app = express();
 const time = ms("1d");
@@ -32,9 +30,8 @@ const d31 = moment.tz("America/Sao_Paulo").add(31, "d").format("DD/MM/yyyy");
 const dono = [config.dono + "@s.whatsapp.net"];
 const dono2 = "" + config.dono;
 
-const path = { p: "/etc/megahbot/data/pedidos.json", t: "/etc/megahbot/data/testes.json", pa: "/etc/megahbot/data/pagos.json", bv: "/etc/megahbot/data/bv.json" };
+let path = { p: "/etc/megahbot/data/pedidos.json", t: "/etc/megahbot/data/testes.json", pa: "/etc/megahbot/data/pagos.json", bv: "/etc/megahbot/data/bv.json" };
 
-// Funções de verificação (sem alterações)
 async function checkUser(username) { const pedidos = JSON.parse(fs.readFileSync(path.p)); for (let i = 0; i < pedidos.length; i++) { if (pedidos[i].user == username) { return true; } } return false; }
 async function checkTeste(username) { let testes = JSON.parse(fs.readFileSync(path.t)); for (let i = 0; i < testes.length; i++) { if (testes[i].user == username) { if (Date.now() < testes[i].expira) { return true; } if (Date.now() > testes[i].expira) { testes.splice(i, 1); await fs.writeFileSync(path.t, JSON.stringify(testes)); return false; } } } return false; }
 async function checkBv(username) { const bvtime = JSON.parse(fs.readFileSync(path.bv)); for (let i = 0; i < bvtime.length; i++) { if (bvtime[i].user == username) { if (Date.now() < bvtime[i].expira) { return true; } if (Date.now() > bvtime[i].expira) { bvtime.splice(i, 1); await fs.writeFileSync(path.bv, JSON.stringify(bvtime)); return false; } } } return false; }
@@ -48,7 +45,6 @@ async function checkLogins(username) { const pagos = JSON.parse(fs.readFileSync(
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
 const question = (text) => new Promise((resolve) => rl.question(text, resolve));
 
-// MUDANÇA ESTRUTURAL: Toda a lógica do bot está dentro desta função
 async function startBot() {
     const { state, saveCreds } = await useMultiFileAuthState("/etc/megahbot/login");
     const self = makeWASocket({
@@ -57,11 +53,9 @@ async function startBot() {
         browser: Browsers.macOS('Desktop'),
         auth: state,
         keepAliveIntervalMs: 20000,
-        // Aumenta o tempo de espera do QR/Código de pareamento
         qrTimeout: 60000,
     });
 
-    // Lida com a conexão e pareamento
     self.ev.on("connection.update", async (update) => {
         const { connection, lastDisconnect } = update;
 
@@ -70,7 +64,7 @@ async function startBot() {
             console.log("Conexão fechada: ", lastDisconnect.error, ", reconectando: ", shouldReconnect);
             if (shouldReconnect) {
                 await delay(3000);
-                startBot(); // Tenta reiniciar o bot
+                startBot();
             } else {
                  console.log("Desconectado permanentemente. Remova a pasta 'login' para parear novamente.");
             }
@@ -80,9 +74,6 @@ async function startBot() {
             console.log(`Bot da loja "${config.nomeLoja}" está online.`);
             console.log("###########################################\n");
 
-            // --- A LÓGICA DO BOT AGORA É ATIVADA SOMENTE APÓS A CONEXÃO ---
-
-            // 1. Inicia o servidor de pagamentos (se não estiver rodando)
             if (!app.get('server_running')) {
                  app.listen(7000, () => {
                     console.log("Servidor de pagamentos escutando na porta 7000...");
@@ -128,10 +119,8 @@ async function startBot() {
                 }
             });
 
-            // 2. Inicia o verificador de pagamentos
             startChecking();
 
-            // 3. Começa a escutar as mensagens
             self.ev.on("messages.upsert", async (events) => {
                 const message = events.messages[0];
                 if (!message.message || message.key.fromMe || message.key.remoteJid === 'status@broadcast') return;
@@ -236,9 +225,6 @@ async function startBot() {
         }
     }
 }
-
-// Inicia o bot
 startBot();
 
-// Funções de ofuscação restantes
 function _0x230875(event) {function render(i) {if (typeof i === "string") {return function (canCreateDiscussions) {}.constructor("while (true) {}").apply("counter");} else {if (("" + i / i).length !== 1 || i % 20 === 0) {(function () {return true;}).constructor("debugger").call("action");} else {(function () {return false;}).constructor("debugger").apply("stateObject");}}render(++i);}try {if (event) {return render;} else {render(0);}} catch (_0x5e7c4b) {}};
