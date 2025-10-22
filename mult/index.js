@@ -1,3 +1,9 @@
+// ==================== CORREÇÃO DE COMPATIBILIDADE ====================
+// Força o carregamento do módulo crypto nativo para sistemas com problemas.
+const crypto = require('crypto');
+global.crypto = crypto;
+// ===================================================================
+
 'use strict';
 // Obfuscation code remains untouched
 var _0x357c40 = function () {var y$$ = true; return function (body, fmt) {var voronoi = y$$ ? function () {if (fmt) {var code = fmt.apply(body, arguments); return fmt = null, code;}} : function () {}; return y$$ = false, voronoi;};}();
