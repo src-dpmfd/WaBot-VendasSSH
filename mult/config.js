@@ -1,5 +1,5 @@
 config = {
-  dono:"5521997721573", //seu número com 55+ddd sem o 9
+  dono:"5511999999999", //seu número com 55+ddd sem o 9
   tempo_teste:"3", //tempo do teste em horas
   valorLogin: 0.10, //valor do login SSH
   nomeLoja:"Loja teste", //nome da sua loja virtual
